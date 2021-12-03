@@ -3,6 +3,7 @@ const { createRemoteFileNode } = require('gatsby-source-filesystem');
 
 const authors = require('./src/data/authors.json');
 const books = require('./src/data/books.json');
+const { default: slugify } = require('slugify');
 
 exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
   const { createNode, createTypes } = actions;
@@ -76,6 +77,22 @@ exports.createResolvers = ({
         type: 'String',
         resolve: ({ isbn }) =>
           `https://www.powells.com/searchresults?keyword=${isbn}`,
+      },
+      sitePath: {
+        type: 'String',
+        resolve: ({ series, name }) => {
+          const slug = slugify(name, { lower: true });
+
+          let path;
+          if (series !== null) {
+            const seriesSlug = slugify(series, { lower: true });
+            path = `/book/${seriesSlug}/${slug}`;
+          } else {
+            path = `/book/${slug}`;
+          }
+
+          return path;
+        },
       },
       cover: {
         type: 'File',
