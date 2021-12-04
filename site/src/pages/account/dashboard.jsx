@@ -19,7 +19,7 @@ const logout = async (setLoginStatus) => {
 };
 
 const DashboardPage = () => {
-  const [loginStatus, setLoginStatus] = React.useState();
+  const [loginStatus, setLoginStatus] = React.useState(null);
 
   React.useEffect(() => {
     checkLogin(setLoginStatus);
@@ -28,6 +28,10 @@ const DashboardPage = () => {
   if (loginStatus === false) {
     navigate('/account/login', { replace: true });
     return null;
+  }
+
+  if (loginStatus === null) {
+    return <p>loading...</p>;
   }
 
   return (
