@@ -18,7 +18,14 @@ module.exports = {
   },
   plugins: [
     'gatsby-plugin-image',
-    'gatsby-plugin-sharp',
+    {
+      resolve: 'gatsby-plugin-sharp',
+      options: {
+        defaults: {
+          placeholder: 'tracedSVG',
+        },
+      },
+    },
     'gatsby-transformer-sharp',
     'gatsby-theme-shared-nav',
     'gatsby-plugin-netlify',
